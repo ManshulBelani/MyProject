@@ -1,0 +1,151 @@
+<link href="css/bootstrap.css" rel="stylesheet" media="screen">
+<script type="text/javascript" src="js/angular.js"></script>
+<script type="text/javascript" src="js/registrationController.js"></script>
+<section id="registration-view" class="mainbar" ng-app="app">
+    <section class="matter">
+        <div class="container">
+            <div class="panel-group" id="accordion1">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            Registration Form
+                            <a data-cc-widget-minimize allow-collapse="true" class="pull-right"></a>
+                        </h4>
+                    </div>
+                    <div class="panel-body" ng-controller="registrationController">
+                        <span ng-bind="validationMessage" class="required"></span>
+                        <form name="registrationForm" id="registrationForm" role="form" ng-show="isInEditMode" novalidate>
+                            <fieldset>
+                                <legend>Login Information</legend>
+                                <div class="verySmall">
+                                    <label>Email&nbsp;<span class="required">*</span></label>
+                                    <input type="email" style="width:220px" name="email" id="email" ng-model="register.email" ng-model-options="{ updateOn: 'blur' }" required />
+                                    <div ng-show="registrationForm.email.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.email.$error.minlength && registrationForm.isSubmitted" class="required">Minimum 3 letters are required</div>
+                                    <!--<div ng-show="registrationForm.email.$error.maxlength && registrationForm.isSubmitted" class="required">Maximum  30 letters are required</div>-->
+                                </div>
+                                <div class="verySmall">
+                                    <label>Confirm Email&nbsp;<span class="required">*</span></label>
+                                    <input type="email" style="width:220px" name="confirmEmail" id="confirmEmail" ng-model="register.confirmEmail" ng-model-options="{ updateOn: 'blur' }" required match="register.email" />
+                                    <div ng-show="registrationForm.confirmEmail.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.confirmEmail.$error.match && registrationForm.isSubmitted" class="required">Emails don't match</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label>Password&nbsp;<span class="required">*</span></label>
+                                    <input type="password" name="password" id="password" ng-model="register.password" ng-model-options="{ updateOn: 'blur' }" ng-minlength=6 required />
+                                    <div ng-show="registrationForm.password.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.password.$error.minlength && registrationForm.isSubmitted" class="required">Minimum 6 letters are required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label>Confirm Password&nbsp;<span class="required">*</span></label>
+                                    <input type="password" name="confirmPassword" id="confirmPassword" ng-model="register.confirmPassword" ng-model-options="{ updateOn: 'blur' }" required match="register.password" />
+                                    <div ng-show="registrationForm.confirmPassword.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.confirmPassword.$error.match && registrationForm.isSubmitted && !registrationForm.password.$error.minlength " class="required">Passwords don't match</div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Contact Information</legend>
+                                <div class="verySmall">
+                                    <label for="salutation">Salutation</label>
+                                    <select name="salutation" id="salutation" ng-model="register.salutation" ng-options="salutation for salutation in salutations">
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="firstName">First Name &nbsp;<span class="required">*</span></label>
+                                    <input type="text" name="firstName" id="firstName" ng-model="register.firstName" required ng-maxlength=20 />
+                                    <div ng-show="registrationForm.firstName.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.firstName.$error.maxlength && registrationForm.isSubmitted" class="required">Maximum  20 letters are required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="lastName">Last Name &nbsp;<span class="required">*</span></label>
+                                    <input type="text"   name="lastName" id="lastName" ng-model="register.lastName" required ng-maxlength=20 />
+                                    <div ng-show="registrationForm.lastName.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="suffix">Suffix</label>
+                                    <input type="text" name="suffix" id="suffix" ng-model="register.suffix" />
+                                </div>
+                                <div class="verySmall">
+                                    <label for="title">Title</label>
+                                    <input type="text" name="title" id="title" ng-model="register.title" />
+                                </div>
+                                <div class="verySmall">
+                                    <label for="phone">Phone Number &nbsp;<span class="required">*</span></label>
+                                    <input type="text" name="phone" id="phone" ng-model="register.phone" ng-model-options="{ updateOn: 'blur' }" phone="register.phone" required />
+                                    <div ng-show="registrationForm.phone.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                    <div ng-show="registrationForm.phone.$error.phoneField && registrationForm.isSubmitted" class="required">Invalid phone number</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="fax">Fax </label>
+                                    <input type="text" name="fax" id="fax" ng-model="register.fax" />
+                                </div>
+                                <div class="verySmall">
+                                    <label for="cell">Cell </label>
+                                    <input type="text" name="cell" id="cell" ng-model="register.cell" ng-model-options="{ updateOn: 'blur' }" phone="register.cell" />
+                                    <div ng-show="registrationForm.cell.$error.phoneField && registrationForm.isSubmitted" class="required">Invalid cell phone number</div>
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend>Work Address</legend>
+                                <div class="verySmall">
+                                    <label for="addressLine1">Address Line 1 &nbsp;<span class="required">*</span></label>
+                                    <input type="text" style="width:200px" name="addressLine1" id="addressLine1" ng-model="register.address.addressLine1" required />
+                                    <div ng-show="registrationForm.addressLine1.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="addressLine2">Address Line 2 </label>
+                                    <input type="text" style="width:200px" name="addressLine2" id="addressLine2" ng-model="register.address.addressLine2" />
+                                </div>
+                                <div class="verySmall">
+                                    <label for="city">City &nbsp;<span class="required">*</span></label>
+                                    <input type="text" name="city" style="width:200px" id="city" ng-model="register.address.city" required />
+                                    <div ng-show="registrationForm.city.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div><br />
+                                <div class="verySmall">
+                                    <label for="country">Country&nbsp;<span class="required">*</span></label>
+                                    <select name="country" style="width:200px" id="country" ng-model="register.address.country" ng-options="country for country in countries" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                    <div ng-show="registrationForm.country.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="stateProvince">State/Province &nbsp;<span class="required">*</span></label>
+                                    <select name="stateProvince" style="width:200px" id="stateProvince" ng-model="register.address.stateProvince" ng-options="state.name for state in stateProvinces | filter:state.country=register.address.country" required>
+                                        <option value="">-- Select --</option>
+                                    </select>
+                                    <div ng-show="registrationForm.stateProvince.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div>
+                                <div class="verySmall">
+                                    <label for="title">Zip/Postal Code </label>
+                                    <input type="text" style="width:200px" name="postalCode" id="postalCode" ng-model="register.address.postalCode" />
+                                </div>
+                            </fieldset>
+                            <fieldset>
+                                <legend></legend>
+                                <div class="large">
+                                    <input type="checkbox" name="userAgreement" id="userAgreement" ng-model="register.userAgreement" required /> I have read, and agree, to the terms and conditions. &nbsp;<span class="required">*</span>
+                                    <div ng-show="registrationForm.userAgreement.$error.required && registrationForm.isSubmitted" class="required">Required</div>
+                                </div>
+                               
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <input class="btn btn-md btn-default btn-block" type="submit" name="cancel" id="cancel" value="Cancel" ng-click="cancel()" />
+                                       
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button class="btn btn-md btn-primary btn-block" type="submit" name="submit" id="submit" ng-click="submit(registrationForm)">Submit</button>
+                                    </div>
+                                    <div class="col-md-8">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</section>
+
+
